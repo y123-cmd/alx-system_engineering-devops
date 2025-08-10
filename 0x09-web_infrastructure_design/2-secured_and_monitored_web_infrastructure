@@ -1,0 +1,46 @@
+# Secured and Monitored Three-Server Web Infrastructure for www.foobar.com
+
+This infrastructure builds upon the previous three-server design by adding security and monitoring features.
+
+## Infrastructure components added:
+
+1. **3 Firewalls**:
+- One firewall per server to restrict unauthorized access.
+- Firewalls control incoming and outgoing network traffic based on security rules.
+- They protect servers from attacks and limit exposure to the internet.
+
+2. **SSL Certificate**:
+- Enables HTTPS for www.foobar.com to encrypt data between user browsers and the web servers.
+- Encryption ensures confidentiality, data integrity, and user trust.
+- SSL termination can be done at the load balancer or web server, with pros and cons.
+
+3. **3 Monitoring Clients**:
+- Installed on each server to collect metrics and logs.
+- These clients send data to a centralized monitoring service like Sumologic.
+- Monitoring tools help detect issues, measure performance, and alert on anomalies.
+
+## Explanation of monitoring data collection:
+
+- Monitoring clients collect data such as CPU usage, memory, network traffic, and application logs.
+- They send this data in real-time or batch to monitoring servers for analysis.
+- To monitor web server Queries Per Second (QPS), enable specific web server metrics (like Nginx status module) and configure monitoring clients to gather this data.
+
+## Issues with this infrastructure:
+
+1. **Terminating SSL at the Load Balancer**:
+- SSL termination at the load balancer means traffic between load balancer and backend servers is unencrypted, risking data interception.
+- To avoid this, SSL can be terminated at the backend servers or use end-to-end encryption.
+
+2. **Single MySQL Write Server**:
+- Having only one MySQL server handling writes is a SPOF.
+- If it fails, no writes can happen, causing application downtime.
+- A high-availability database setup or multi-master replication can reduce this risk.
+
+3. **Servers with All Components (Database, Web, Application)**:
+- Having all components on each server leads to resource contention.
+- It reduces fault isolation, making troubleshooting harder.
+- It's better to separate roles for scalability, security, and maintainability.
+
+---
+
+This design ensures secure, encrypted traffic and continuous monitoring for better reliability and observability of www.foobar.com.
