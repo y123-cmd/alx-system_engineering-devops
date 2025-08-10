@@ -1,0 +1,39 @@
+# Three-Server Web Infrastructure Design for www.foobar.com
+
+This design uses 3 servers to improve reliability, scalability, and availability of the website.
+
+Infrastructure components:
+
+1. Load Balancer (HAProxy):
+- Distributes incoming user traffic between the two web servers.
+- Uses a Round Robin distribution algorithm, which cycles requests evenly between servers.
+- Setup is Active-Active: both web servers handle traffic simultaneously, providing load sharing and fault tolerance.
+- Active-Passive would mean one server is on standby, only taking over if the active server fails.
+
+2. Two Servers (Web Server + Application Server):
+- Server 1: Runs Nginx (web server) serving static content and forwarding requests to the application server.
+- Server 2: Runs the application server that executes the backend code (e.g., PHP, Python).
+- Application files are deployed on the application server.
+
+3. Database Server (MySQL Primary-Replica Cluster):
+- Primary node handles all write operations from the application.
+- Replica node(s) asynchronously copy data from the Primary and handle read queries.
+- This setup improves performance and provides data redundancy.
+
+Differences between Primary and Replica:
+- Primary accepts writes and replicates changes to the Replica.
+- Replica is read-only for the application but serves read requests to reduce load on Primary.
+
+Communication:
+- User requests go to HAProxy (load balancer) at www.foobar.com.
+- HAProxy forwards requests to Nginx on either server 1 or server 2.
+- Nginx serves static files or passes dynamic requests to the app server.
+- The app server queries the database (Primary or Replica) as needed.
+
+Issues with this infrastructure:
+
+- SPOF (Single Point of Failure): The load balancer is a SPOF; if it fails, traffic stops.
+- Security concerns: No firewall to block unwanted traffic; no HTTPS means data is not encrypted.
+- No monitoring or alerting systems to detect failures or performance problems.
+
+This infrastructure is more robust than a single server but still has areas for improvement in fault tolerance, security, and observability.
