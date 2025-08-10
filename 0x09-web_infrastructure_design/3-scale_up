@@ -1,0 +1,33 @@
+# Scale-Up Web Infrastructure Design with Load Balancer Cluster for www.foobar.com
+
+This infrastructure focuses on scaling the application by separating components and using a load-balancer cluster.
+
+## Infrastructure components added:
+
+1. **1 Server for Web Server**:
+- Dedicated to serving static files and handling HTTP requests.
+- Improves performance and allows scaling independently from the application server.
+
+2. **1 Server for Application Server**:
+- Runs the backend application logic.
+- Separating it allows independent scaling and easier maintenance.
+
+3. **1 Server for Database (MySQL)**:
+- Dedicated server for database to optimize data storage and management.
+- Enables better security and performance tuning specific to the database.
+
+4. **2 Load Balancers (HAProxy) configured as a cluster**:
+- Provides redundancy and high availability for incoming traffic.
+- Distributes requests across web servers efficiently.
+- If one load balancer fails, the other takes over (Active-Passive or Active-Active setup).
+
+## Why these elements are added:
+
+- **Separation of concerns**: Each component can be scaled or maintained without affecting others.
+- **Load Balancer cluster**: Eliminates single point of failure at the load balancer level.
+- **Improved reliability and uptime**: Traffic can be balanced and failover handled smoothly.
+- **Performance**: Dedicated resources ensure better responsiveness.
+
+---
+
+This setup allows the website www.foobar.com to scale horizontally and maintain high availability, ensuring better user experience and fault tolerance.
