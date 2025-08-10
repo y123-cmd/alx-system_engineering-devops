@@ -1,0 +1,35 @@
+One Server Web Infrastructure Design for www.foobar.com
+
+1. What happens when a user wants to access www.foobar.com?
+
+The user types www.foobar.com into their browser.
+
+The browser sends a request to the Domain Name System (DNS) to resolve the domain name to an IP address.
+
+The DNS returns the IP address 8.8.8.8 (our server's IP).
+
+The browser sends an HTTP request to the server at IP 8.8.8.8.
+
+2. Components of the Infrastructure
+
+Server: This is a physical or virtual computer that hosts the website, runs the web server, application server, and the database.
+
+Domain Name: www.foobar.com is the human-readable address that points to the server's IP.
+
+DNS Record: The www in www.foobar.com is a CNAME or A record that points to the server IP 8.8.8.8.
+
+Web Server (Nginx): Listens to HTTP requests from users and forwards them to the application server. It serves static files and handles incoming web traffic.
+
+Application Server: Runs the website’s backend code (business logic). Processes requests from the web server, interacts with the database, and returns dynamic content.
+
+Database (MySQL): Stores the application’s data like user info, posts, etc. The application server queries the database to fetch or update data.
+
+Communication Protocol: The server and user's computer communicate over the HTTP or HTTPS protocols, using TCP/IP over the internet.
+
+3. Issues with this Infrastructure
+
+Single Point of Failure (SPOF): If the single server fails, the website becomes unavailable.
+
+Downtime for Maintenance: When updating code or restarting the web server, the website can go offline temporarily.
+
+Scaling Limitations: This setup can’t easily handle a large number of users or traffic spikes, as all services run on one server.
